@@ -1,5 +1,7 @@
 package org.uiowa.cs2820.engine;
 
+import java.util.LinkedList;
+
 public class KeyStorage {
 	public static LinkedList<Node> storage = new LinkedList<Node>();
 	
