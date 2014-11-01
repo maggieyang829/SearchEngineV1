@@ -38,4 +38,8 @@ public class Node {
 		  ValueStorage.store(idList);
 	  }
   
+	  public String toString(){
+		  String s = "[" + key.toString() + ": " + ValueStorage.listAll(valueArea) + "]";
+		  return s;
+	  }
   }
