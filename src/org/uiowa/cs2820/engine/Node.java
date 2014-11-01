@@ -7,21 +7,30 @@ public class Node {
 	  Field Key;  // Key of this node for lookup
 	  long valueArea; //starting point of the first identifier
 	  Node next;
-	  long addr;//
+	  long addr;  //address of the node in the disk space (file)
 	  
-	  Node(Field f, String id) {
+	  Node(Field f) {
 		this.Key = f;
-		this.valueArea = Allocate.allocate();
+		this.valueArea = Allocate.allocate();  //return the address of free space for the first value
 		this.next = null;
-	    }
+		this.addr = Allocate.allocate(); //return the address for this node
+	  }
 	  
-	  public void add(String id) { 
-		Identifiers.remove(id);  // does nothing if id not already there
-		Identifiers.add(id);
-	    }
+	  public ArrayList<String> getIdentifiers(long start){
+		  return ValueStorage.load(start);
+	  }
 	  
-	  public void del(String id) {
-		Identifiers.remove(id);
-	    }
+	  public void add(String id) {
+		  
+		  ArrayList<String> idList = ValueStorage.load(valueArea);
+		  idList.add(id);
+		  ValueStorage.store(idList);
+	  }
+	  
+	  public void delete(String id) {
+		  ArrayList<String> idList = ValueStorage.load(valueArea);
+		  idList.remove(id);
+		  ValueStorage.store(idList);
+	  }
   
   }
