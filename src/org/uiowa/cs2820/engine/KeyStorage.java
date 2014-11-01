@@ -2,15 +2,13 @@ package org.uiowa.cs2820.engine;
 
 public class KeyStorage {
 	
-	public static long start;
+	public static long head;
 	public static int size;
-	public static Node head;
-	public static Node tail;
+	public static long tail;
 		
 	public static void init(){
-		start = Allocate.allocate(); //return the address for the first node in the list
+		head = Allocate.allocate(); //return the address for the first node in the list
 		size = 0;
-		head = null;
 		tail = head;
 	}
 	
@@ -32,19 +30,22 @@ public class KeyStorage {
 		return true;
 	}
 	
-	public Boolean add(Node n) throws Exception {
-		n.prev = null;
-		n.next = null;	
+	//add Node n to the end of the linked list and write into file
+	public Boolean add(Node n) throws Exception { 
+		n.prev = -1;
+		n.next = -1;	
 		try{
 			if(size == 0) {
-				put(start, n);
-				head = tail = n;
+				n.addr = head;
+				put(head, n);	
 			} else {
 				n.addr = Allocate.allocate();
+				Node last = get(tail);  //get the node from file to modify
+				last.next = n.addr;
+				n.prev = last.addr;
+				put(tail, last);        //put the modified node back in file
+				tail = n.addr;
 				put(n.addr, n);
-				n.prev = tail;
-				tail.next = n;
-				tail = n;
 		      }
 			size++;
 		}
@@ -55,10 +56,25 @@ public class KeyStorage {
 		return true;
 	}
 	
-	public Boolean delete(Node n) throws Exception{
+	/*delete a node from file. Node can be the head, tail or in the middle
+	may need modification, don't know if we need to check n is in file or not*/
+	public Boolean delete(Node n) throws Exception{ 
 		try{
-			n.prev.next = n.next;
-			n.next.prev = n.prev;
+			if(n.addr == head) head = tail = -1;   //n is the only node. list becomes empty
+			else if(n.addr == tail){               //if n is the tail
+				Node before = get(n.prev);
+				before.next = -1;                  //set the previous node to be tail
+				tail = before.addr;
+				put(tail, before);
+			} else {							   //n is in the middle, re-link is done
+					Node before = get(n.prev);     
+					Node after = get(n.next);
+					before.next = after.addr;
+					after.prev = before.addr;
+					put(before.addr, before);
+					put(after.addr, after);
+			}
+			ValueStorage.clear(n.valueArea);  //clear all the ids associated with this key
 			Allocate.free(n.addr);
 			size--;
 		} catch(Exception e){

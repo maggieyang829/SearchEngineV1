@@ -13,4 +13,8 @@ public class ValueStorage {
     public static void store(long startpoint){
 		
 	}
+    
+    public static void clear(long startpoint){
+    	
+    }
 }

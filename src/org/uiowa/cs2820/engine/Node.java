@@ -6,15 +6,15 @@ public class Node {
 	  // Node is a basic unit in the database
 	  Field key;  // Key of this node for lookup
 	  long valueArea; //starting point of the first identifier
-	  Node next;
-	  Node prev;
+	  long next;
+	  long prev;
 	  long addr;  //address of the node in the disk space (file)
 	  
 	  Node(Field f) {
 		this.key = f;
 		this.valueArea = Allocate.allocate();  //return the address of free space for the first value
-		this.next = null;
-		this.prev = null;
+		this.next = -1;
+		this.prev = -1;
 		this.addr = Allocate.allocate(); //return the address for this node
 	  }
 	  
