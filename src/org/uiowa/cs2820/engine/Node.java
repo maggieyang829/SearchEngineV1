@@ -4,15 +4,17 @@ import java.util.ArrayList;
 
 public class Node {
 	  // Node is a basic unit in the database
-	  Field Key;  // Key of this node for lookup
+	  Field key;  // Key of this node for lookup
 	  long valueArea; //starting point of the first identifier
 	  Node next;
+	  Node prev;
 	  long addr;  //address of the node in the disk space (file)
 	  
 	  Node(Field f) {
-		this.Key = f;
+		this.key = f;
 		this.valueArea = Allocate.allocate();  //return the address of free space for the first value
 		this.next = null;
+		this.prev = null;
 		this.addr = Allocate.allocate(); //return the address for this node
 	  }
 	  
@@ -20,8 +22,11 @@ public class Node {
 		  return ValueStorage.load(start);
 	  }
 	  
-	  public void add(String id) {
-		  
+	  public Field getKey(){
+		  return key;
+	  }
+	  
+	  public void add(String id) {		  
 		  ArrayList<String> idList = ValueStorage.load(valueArea);
 		  idList.add(id);
 		  ValueStorage.store(idList);
