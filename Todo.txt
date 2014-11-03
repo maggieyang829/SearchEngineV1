@@ -1,0 +1,9 @@
+Group 5
+
+We are going to build the rough version of the project and finish Allocate, Checkpoint, KeyStorage, DiskSpace, Node, ValueStorage by next Friday.
+We also will discuss and revise the rough draft, and write LinearFileDatabase class together at the meeting on next Friday.
+
+Xiaomeng Yang:    Node, KeyStorage
+Anu Ghimire:      ValueStorage
+Khashi Reyes:     DiskSpace
+Mitchell Kinney:  Checkpoint, Allocate
