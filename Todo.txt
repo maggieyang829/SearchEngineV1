@@ -7,3 +7,8 @@ Xiaomeng Yang:    Node, KeyStorage
 Anu Ghimire:      ValueStorage
 Khashi Reyes:     DiskSpace
 Mitchell Kinney:  Checkpoint, Allocate
+
+11/4 Comment by Ted Herman. I can see some progress, but it should be more. 
+Please try to do more on developing these different parts.  Maybe consider
+at least the design, if not the actual code, of what the unit tests would
+be and write that idea into comments.
