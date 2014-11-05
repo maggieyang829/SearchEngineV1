@@ -14,7 +14,9 @@ public class CheckPoint {
 	 *Questions I would still like to ask Prof/TA:
 	 *	Is it alright to save it to a file in the working directory or should it also be saved to the diskspace?
 	 *	How should files be tested with java unit tests?
+	 *	Do we need to refactor convert and revert or is it alright to use them from the Field class?
 	*/
+	
 	public static void save(BitSet bitset){
 		byte[] bfile = Field.convert(bitset);										//uses Field to turn bitset into a byte array
 		File file = new File("bitSet.txt");											//creates a new file variable
