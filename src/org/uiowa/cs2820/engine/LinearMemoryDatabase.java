@@ -5,15 +5,19 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class LinearMemoryDatabase implements Database {
-  public static File datastorage;
+  public static File dataStorage;
   
   public static void init(){
-	  datastorage = new File("dataspace.txt");                    
+	  dataStorage = new File("dataspace.txt");                    
 		try {
-			datastorage.createNewFile();
+			dataStorage.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+  }
+  
+  public static File getDataStorage() {
+      return dataStorage;
   }
   
   /*the code below needs refactoring*/

@@ -59,25 +59,35 @@ public class KeyStorage {
 	/*delete a node from file. Node can be the head, tail or in the middle
 	may need modification, don't know if we need to check n is in file or not*/
 	public static boolean delete(Node n) throws Exception{ 
+		Node before = null;
 		try{
 			if(size == 0) return true;             //delete from empty list
 			
-			if(n.addr == head) head = tail = -1;   //n is the only node. list becomes empty
-			else if(n.addr == tail){               //if n is the tail
-				Node before = get(n.prev);
-				before.next = -1;                  //set the previous node to be tail
-				tail = before.addr;
-				put(tail, before);
-			} else {							   //n is in the middle, re-link is done
-					Node before = get(n.prev);     
-					Node after = get(n.next);
-					before.next = after.addr;
-					after.prev = before.addr;
-					put(before.addr, before);
-					put(after.addr, after);
+			Node current = get(head);
+			while(current.next != -1){
+				if (current.key.equals(n.key)) break;
+				before = current;
+				current = get(current.next);				
 			}
-			ValueStorage.clear(n.valueArea);  //clear all the ids associated with this key
-			Allocate.free(n.addr);
+			if (current.addr == tail){
+				if(!current.key.equals(n.key)) return false;    //Node n is not in the storage
+			}
+			
+			/*found node n, re-link pointer*/
+			if(current.addr == head) {
+				head = get(current.next).addr;
+			} else if(current.addr == tail){
+				before.next = -1;
+				tail = before.addr;
+				put(before.addr, before);                     //put it back into data file
+			}else {                                           
+				Node next = get(current.next);
+				before.next = next.addr;
+				put(before.addr, before);
+			}
+			
+			ValueStorage.clear(current.valueArea);  //clear all the ids associated with this key
+			Allocate.free(current.addr);
 			size--;
 			
 		} catch(Exception e){

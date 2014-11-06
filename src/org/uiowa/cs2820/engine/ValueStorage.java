@@ -8,7 +8,7 @@ public class ValueStorage {
 		
 	}
 	
-	public static ArrayList<String> load(){
+	public static ArrayList<String> load(long start){
 		
 	}
 	
