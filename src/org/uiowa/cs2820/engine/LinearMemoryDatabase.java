@@ -1,15 +1,22 @@
 package org.uiowa.cs2820.engine;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class LinearMemoryDatabase implements Database {
-  private ArrayList<Node> Memory = null;
+  public static File datastorage;
   
-  LinearMemoryDatabase() {
-	this.Memory = new ArrayList<Node>();  // empty list
-    }
+  public static void init(){
+	  datastorage = new File("dataspace.txt");                    
+		try {
+			datastorage.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+  }
   
+  /*the code below needs refactoring*/
   public Node fetch(byte[] key) {
 	for (Node e: Memory)
 	  if (Arrays.equals(e.Key,key)) return e;
