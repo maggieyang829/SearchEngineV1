@@ -1,5 +1,6 @@
 package org.uiowa.cs2820.engine;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ValueStorage {
@@ -14,11 +15,17 @@ public class ValueStorage {
 		tail = -1;
 	}
 	
-	public static ArrayList<String> load(long start){
+	public static ArrayList<String> load(long start) throws IOException{
 		ArrayList<String> Identifiers = new ArrayList<String>();
-		byte[] fileName = start.myValue;
-		String fileName = (String)Field.revert(fileName);
-		Identifiers.add(fileName);
+		byte[] fileName = DiskSpace.read(start);
+		
+		Areas myArea = (Areas) Field.revert(fileName);
+		while(myArea.next != -1){
+			byte[] name = myArea.myValue;
+			String name1 = (String) Field.revert(name);
+			Identifiers.add(name1);
+			myArea = myArea.next;
+		}
 		return Identifiers;
 	}
 	
