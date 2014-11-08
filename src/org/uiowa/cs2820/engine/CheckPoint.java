@@ -17,15 +17,18 @@ public class CheckPoint {
 	 *	Do we need to refactor convert and revert or is it alright to use them from the Field class?
 	*/
 	
+	public static void init(){
+		File file = new File("bitSet.txt");
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void save(BitSet bitset){
 		byte[] bfile = Field.convert(bitset);										//uses Field to turn bitset into a byte array
-		File file = new File("bitSet.txt");											//creates a new file variable
-		try{
-			file.createNewFile();													//checks and sees if the file name is already created or not
-			fileWrite("bitSet.txt", bfile);											//writes the byte array to file named "bitSet.txt"
-		}catch(IOException ex){
-			fileWrite("bitSet.txt", bfile);											//writes the byte array to file named "bitSet.txt"
-		}
+		fileWrite("bitSet.txt", bfile);												//writes the byte array to file named "bitSet.txt"
 		    
 	}
 	
