@@ -22,30 +22,18 @@ public class Allocate {
 
 	private static boolean firstTime = true;
 	
-	private static long findFreeBit(BitSet bitSet){
-		try{
-			int nextBit = bitSet.previousClearBit(bitSet.length() - 1);		//a free bit index in bitSet
-			bitSet.set(nextBit);											//sets the free bit to being 'in use'
-			return(nextBit);												
-		}catch(ArrayIndexOutOfBoundsException e){							//no free bit index in bitSet (return of -1)
-			int nextBit = bitSet.length();									//nextBit set to last index of bitSet + 1			
-			bitSet.set(nextBit);											//sets the newly created bit to being 'in use'
-			return(nextBit);
-			
-		}
-	}
-	
 	public static long allocate(){											
 		BitSet bitSet;														//initialization of BitSet object
 		if(firstTime){														//checks to make sure a file will be present to call restore
-																				//if not just uses a new BitSet
+																			//if not just uses a new BitSet
 			bitSet = new BitSet();
 			firstTime = false;												//flips firstTime so a new BitSet won't be created again
 		}else{
 			bitSet = CheckPoint.restore();									//loads the bitset from memory
 		}
 		long freeBit;														//initialize freeBit: bit to return as free
-		freeBit = findFreeBit(bitSet);										//call to find the free bit
+		freeBit = bitSet.nextClearBit(0);									//call to find the free bit
+		bitSet.set((int) freeBit); 
 		CheckPoint.save(bitSet);											//saves the new BitSet object
 		return(freeBit);
 		
@@ -60,7 +48,7 @@ public class Allocate {
 			return(false);
 		}
 		int clearBit = (int) area;											//cast as int to use with indexing
-		if(clearBit > bitSet.length() - 1){									//checks to make sure index is within bitSet bounds
+		if(clearBit > bitSet.length()){										//checks to make sure index is within bitSet bounds
 			System.out.println("area out of bounds");
 			return(false);
 		}
