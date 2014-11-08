@@ -61,4 +61,10 @@ public class Allocate {
 			return(false);
 		}
 	}
+	
+	public static void clearAll(){												//Clear everything from BitSet
+		BitSet bitSet = new BitSet();
+		CheckPoint.save(bitSet);
+				
+	}
 }
