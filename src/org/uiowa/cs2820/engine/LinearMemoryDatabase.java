@@ -2,7 +2,6 @@ package org.uiowa.cs2820.engine;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class LinearMemoryDatabase implements Database {
   public static File dataStorage;
@@ -20,28 +19,46 @@ public class LinearMemoryDatabase implements Database {
       return dataStorage;
   }
   
-  /*the code below needs refactoring*/
-  public Node fetch(byte[] key) {
-	for (Node e: Memory)
-	  if (Arrays.equals(e.Key,key)) return e;
-	return null;
-    }
+  public Node fetch(byte[] key) throws IOException {
+	Field f = (Field) Field.revert(key);
+	Node current;
+
+	current = KeyStorage.get(KeyStorage.head);
+	while(current.next != -1){
+		if (current.key.equals(f)) return current;
+		current = KeyStorage.get(current.next);				
+	}
+	if (current.key.equals(f)){
+		return current;
+	} else return null;
+
+  }
   
-  public void store(byte[] key, String id) {
-	for (Node e: Memory) 
-	  if (Arrays.equals(e.Key,key)) {
-		e.add(id);
-		return;
-	    }
-    Node p = new Node(key,id);
-    Memory.add(p);
-    }
+  public void store(byte[] key, String id)  {
+	try {
+	    Node n = fetch(key);
+		if(n != null){                                      //when the node is in the keystorage
+		n.add(id);
+	    } else {
+	    	Field f = (Field) Field.revert(key);
+	    	Node newNode = new Node(f);						//when node is not in keystorage, create new one
+	    	newNode.add(id);
+	    	KeyStorage.add(n);
+	      }	
+	} catch (Exception e) {
+		System.out.println("store key and id failed");
+		e.printStackTrace();
+	}
+}
+  
   
   public void delete(byte[] key, String id) {
-	for (Node e: Memory)
-	  if (Arrays.equals(e.Key, key)) {
-		e.Identifiers.remove(id);
-		return;
-	    }
-    }
+	try {
+	  Node n = fetch(key);
+	  if (n != null) n.delete(id);
+	} catch (Exception e){
+		System.out.println("delete key and id failed");
+		e.printStackTrace();
+	}
   }
+}
