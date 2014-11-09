@@ -19,29 +19,26 @@ public class LinearMemoryDatabase implements Database {
       return dataStorage;
   }
   
-  public Node fetch(byte[] key) throws IOException {
-	Field f = (Field) Field.revert(key);
-	Node current;
-
-	current = KeyStorage.get(KeyStorage.head);
+  public Node fetch(Field key) throws IOException {
+	  
+	Node current = KeyStorage.get(KeyStorage.head);
 	while(current.next != -1){
-		if (current.key.equals(f)) return current;
+		if (current.key.equals(key)) return current;
 		current = KeyStorage.get(current.next);				
 	}
-	if (current.key.equals(f)){
+	if (current.key.equals(key)){
 		return current;
 	} else return null;
 
   }
   
-  public void store(byte[] key, String id)  {
+  public void store(Field key, String id)  {
 	try {
 	    Node n = fetch(key);
 		if(n != null){                                      //when the node is in the keystorage
 		n.add(id);
 	    } else {
-	    	Field f = (Field) Field.revert(key);
-	    	Node newNode = new Node(f);						//when node is not in keystorage, create new one
+	    	Node newNode = new Node(key);						//when node is not in keystorage, create new one
 	    	newNode.add(id);
 	    	KeyStorage.add(n);
 	      }	
@@ -52,7 +49,7 @@ public class LinearMemoryDatabase implements Database {
 }
   
   
-  public void delete(byte[] key, String id) {
+  public void delete(Field key, String id) {
 	try {
 	  Node n = fetch(key);
 	  if (n != null) n.delete(id);
@@ -61,4 +58,5 @@ public class LinearMemoryDatabase implements Database {
 		e.printStackTrace();
 	}
   }
+
 }
