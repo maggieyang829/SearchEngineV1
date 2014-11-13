@@ -2,12 +2,14 @@ package org.uiowa.cs2820.engine;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 public class FieldTest {
 
 	@Test
-	public void test0() {
+	public void test0() throws IOException {
 	  Database D = new LinearMemoryDatabase();
 	  FieldSearch F = new FieldSearch(D);
 	  Field F1 = new Field("1",new Integer(45));
@@ -15,7 +17,7 @@ public class FieldTest {
 	  }
 	
 	@Test
-	public void test1() {
+	public void test1() throws IOException {
 	  Database D = new LinearMemoryDatabase();
 	  FieldSearch F = new FieldSearch(D);
 	  Indexer I = new Indexer(D,"abc");
@@ -33,7 +35,7 @@ public class FieldTest {
 	  }
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void test2() {
+	public void test2() throws IOException {
 	  Database D = new LinearMemoryDatabase();
 	  Indexer I = new Indexer(D,"data");
 	  Field F = new Field("Iowa",

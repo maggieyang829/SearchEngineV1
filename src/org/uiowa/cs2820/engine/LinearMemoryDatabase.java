@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class LinearMemoryDatabase implements Database {
-  public static File dataStorage;
+  private static File dataStorage;
   
   public static void init(){
 	  dataStorage = new File("dataspace.txt");                    
