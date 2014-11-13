@@ -40,19 +40,22 @@ public class Field implements Serializable {
 	  }
 	
 	// constructor for Fields with String
-	Field(String FieldName, Object Value) throws IllegalArgumentException {
+	public Field(String FieldName, Object Value) throws IllegalArgumentException {
 	  this.FieldName = FieldName;
 	  this.FieldValue = Value;
 	  if (toBytes().length >= Field.MAXSIZE)
 	     throw new IllegalArgumentException("Field Size exceeded: " + FieldName);
 	  return;
 	  }
+	
 	public String getFieldName() {
 	  return FieldName;
 	  }
+	
 	public Object getFieldValue() {
 	  return FieldValue;
 	  }
+	
 	public byte[] toBytes() {
 	  byte[] wholeField = convert(this);
 	  return wholeField;

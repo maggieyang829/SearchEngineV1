@@ -16,21 +16,22 @@ import java.io.IOException;
  *Methods:
  *1> init(): this method initiates the head, tail and the size of the key storage. Because there is no data
  *   in the key storage yet, the head and tail point to null area and the size is zero.
- *2> Node get(long areaNum): it uses DiskSpace.read() to read from a specific chunk in the database (file)
+ *2> getSize(): it returns the size of the keystorage, that is the number of nodes.
+ *3> Node get(long areaNum): it uses DiskSpace.read() to read from a specific chunk in the database (file)
  *   and uses Field.revert to return a Node object.
- *3> put(long areaNum, Node n): this method also uses DiskSpace to write a node in a specific area in the
+ *4> put(long areaNum, Node n): this method also uses DiskSpace to write a node in a specific area in the
  *   database file.
- *4> add(Node n): it adds a node into the current linked list in the key storage. Head and tail pointers are
+ *5> add(Node n): it adds a node into the current linked list in the key storage. Head and tail pointers are
  *   adjusted accordingly. If succeed, it returns true, false otherwise.
- *5> delete(Node): it delete a node from the current linked list in the key storage. Head and tail pointers 
+ *6> delete(Node): it delete a node from the current linked list in the key storage. Head and tail pointers 
  *   are adjusted accordingly. If succeed, it returns true, false otherwise.
- *6> clear(): this method clear all the node objects in the keystorage, so the size will be zero.
- *7> listAll(): this is only used for debugging convenience.*/
+ *7> clear(): this method clear all the node objects in the keystorage, so the size will be zero.
+ *8> listAll(): this is only used for debugging convenience.*/
 
 public class KeyStorage {
 	
 	public static long head;
-	public static int size;
+	private static int size;
 	public static long tail;
 		
 	public static void init(){
@@ -38,6 +39,10 @@ public class KeyStorage {
 		size = 0;
 	}
 	
+	public static int getSize(){
+		return size;
+	}
+
 	public static Node get(long areaNum) throws IOException{
 		byte[] byteResult = DiskSpace.read(areaNum);
 		Node n = (Node) Field.revert(byteResult);
@@ -61,14 +66,14 @@ public class KeyStorage {
 		n.next = -1;
 		try{
 			if(size == 0) {
-				head = tail = Allocate.allocate();
+				head = tail = Allocate.allocate();      //init a chunk number to store the first node
 				n.addr = head;
 				put(head, n);	
 			} else {
 				n.addr = Allocate.allocate();
-				Node last = get(tail);  //get the node from file to modify
+				Node last = get(tail);                 //get the tail node from file to modify
 				last.next = n.addr;
-				put(tail, last);        //put the modified node back in file
+				put(tail, last);                       //put the modified node back in file
 				tail = n.addr;
 				put(n.addr, n);
 		      }
@@ -81,38 +86,45 @@ public class KeyStorage {
 		return true;
 	}
 	
-
+	//delete a node from storage, Node n may not be in the list.
 	public static boolean delete(Node n) throws Exception{ 
 		Node before = null;
 		try{
-			if(size == 0) return true;             //delete from empty list
+			if(size == 0) return true;                         //delete from empty list
 			
 			Node current = get(head);
 			while(current.next != -1){
-				if (current.key.equals(n.key)) break;
+				if (current.key.getFieldName().equals(n.key.getFieldName())) break;
 				before = current;
 				current = get(current.next);				
 			}
+			
 			if (current.addr == tail){
-				if(!current.key.equals(n.key)) return false;    //Node n is not in the storage
+				if(!current.key.getFieldName().equals(n.key.getFieldName())) return false;    
+				//Node n is not in the storage
 			}
 			
-			/*found node n, re-link pointer*/
-			if(current.addr == head) {
-				head = get(current.next).addr;
-			} else if(current.addr == tail){
+			//found node n, re-link pointer
+			if(current.addr == head) {						  //delete the head
+				if (size > 1) { head = get(current.next).addr;}	
+				
+			} else if(current.addr == tail){	              //delete the tail
 				before.next = -1;
 				tail = before.addr;
-				put(before.addr, before);                     //put it back into data file
-			}else {                                           
+				put(before.addr, before);                     
+			}else {                                           //delete node in the middle		
 				Node next = get(current.next);
 				before.next = next.addr;
 				put(before.addr, before);
 			}
 			
-			ValueStorage.clear(current.valueArea);  //clear all the ids associated with this key
+			ValueStorage.clear(current.valueArea);           //clear all the ids associated with this key
 			Allocate.free(current.addr);
 			size--;
+			
+			if(size == 0){								     //if delete the only node, reset list
+				head = tail = -1;
+			}
 			
 		} catch(Exception e){
 			System.out.println("Delete Node Failed!");
@@ -127,10 +139,14 @@ public class KeyStorage {
 		Node current = get(head);
 		while(current.next != -1){
 			Node temp = get(current.next);
+			ValueStorage.clear(current.valueArea);
 			Allocate.free(current.addr);
 			current = temp;
 		}
+		
+		ValueStorage.clear(current.valueArea);
 		Allocate.free(current.addr);
+		
 		head = tail = -1;
 		size = 0;
 	}
@@ -142,10 +158,10 @@ public class KeyStorage {
 		else {
 		    Node current = get(head);
 			while(current.next != -1){
-				s += current.toString() + '\n';
+				s += current.key.getFieldName() + '\n';
 				current = get(current.next);
 			}
-			s += current.toString();
+			s += current.key.getFieldName();
 		}
 		return s;
 	}

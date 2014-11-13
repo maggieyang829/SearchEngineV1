@@ -1,5 +1,7 @@
 package org.uiowa.cs2820.engine;
 
+import java.io.IOException;
+
 public class Indexer {
 	private Database D;
 	private String id;
@@ -11,10 +13,9 @@ public class Indexer {
 	this.id = id;
 	}
 	  
-	public void addField(Field f) {
+	public void addField(Field f) throws IOException {
 	// Field has (name,value) which is used as key for
 	// the database operations
-	byte[] key = f.toBytes();
-	D.store(key, id);
+	D.store(f, id);
 	}
 }
