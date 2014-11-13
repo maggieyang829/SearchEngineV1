@@ -1,16 +1,18 @@
-package org.uiowa.cs2820.engine;
+package org.uiowa.cs2820.engineTest;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
+import org.uiowa.cs2820.engine.Allocate;
 
 public class AllocateTest {
 
 	@Test
 	public void allocateTest() {
 		long t;
-		t = Allocate.allocate();
-		assertEquals(t, 0);
 		long s;
+		t = Allocate.allocate();
+		assertEquals(t, 0);		
 		s = Allocate.allocate();
 		assertEquals(s, 1);
 		Allocate.clearAll();
@@ -20,6 +22,8 @@ public class AllocateTest {
 	public void freeTest() {
 		long t;
 		long s;
+		long u;
+		boolean r;
 		Allocate.allocate();
 		Allocate.allocate();
 		t = Allocate.allocate();
@@ -27,7 +31,10 @@ public class AllocateTest {
 		Allocate.free(1);
 		s = Allocate.allocate();
 		assertEquals(s, 1);
+		r = Allocate.free(5);
+		assertEquals(r, false);
 		Allocate.clearAll();
+		
 		
 	}
 	
