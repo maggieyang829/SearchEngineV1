@@ -5,25 +5,43 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class DiskSpace {
-	private static File file = LinearMemoryDatabase.getDataStorage();
+	//private static File file = LinearMemoryDatabase.getDataStorage();
+	private static File file = new File("byte.txt");
 	public static void write(long area, byte[] b) throws IOException{
 		RandomAccessFile rafw = new RandomAccessFile(file, "rw"); //creates random access file
+		byte[] L = new byte[2];
+		// Following two lines save length of byte array to first two bytes of area chunk
+		L[0] = (byte) (b.length/2);
+		L[1] = (byte) b.length;
 		rafw.seek(area); //sets pointer in file to area
-		rafw.setLength(DiskSpace.size() + b.length); //pre-allocates space for writing
-		rafw.write(b); //writes the byte array to the file
+		rafw.setLength(1024);
+		rafw.write(L); //writes the byte array to the file
+		rafw.write(b);
 		rafw.close();
 	}
 	
 	public static byte[] read(long area) throws IOException{
 		RandomAccessFile rafr = new RandomAccessFile(file, "r");
 		rafr.seek(area); //sets pointer in file to area needed
-		byte[] B = new byte[1024]; //creates a new byte array
+		byte[] L = new byte[2];
+		rafr.read(L); //reads first two bytes to get length needed
+		int N = (int)L[0];
+		if(N < 0) {
+			N = N + 256;
+		}
+		N = N * 256;
+		int M = (int)L[1];
+		if(M < 0) {
+			M = M + 256;
+		}
+		N = N + M;
+		byte[] B2 = new byte[N]; //sets length two read to length needed
 		//reads from pointer to end of area and writes to byte array
-		for (int i=0; i < 1024; i++) {
-			B[i] = rafr.readByte();
+		for(int i=0; i < N; i++) {
+			B2[i] = rafr.readByte();
 		}
 		rafr.close();
-		return B;
+		return B2;
 	}
 	
 	//returns the size of the file
@@ -39,4 +57,5 @@ public class DiskSpace {
 		if (DiskSpace.size() == 0) return true;
 		else return false;
 	}
+	
 }
