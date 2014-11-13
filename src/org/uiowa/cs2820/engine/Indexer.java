@@ -6,10 +6,9 @@ public class Indexer {
 	private Database D;
 	private String id;
 	  
-	Indexer(Database d, String id) {
+	public Indexer(String id) {
 	// constructor does nothing now, but someday
 	// may need to set up database for doing things
-	this.D = d;
 	this.id = id;
 	}
 	  

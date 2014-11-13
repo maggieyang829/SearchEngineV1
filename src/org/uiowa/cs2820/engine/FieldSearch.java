@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class FieldSearch {
 	  private Database D;
 	  
-	  FieldSearch(Database d) {
+	  public FieldSearch(Database d) {
 		this.D = d;  
 	    }
 		

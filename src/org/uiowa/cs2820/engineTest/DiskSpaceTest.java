@@ -1,10 +1,12 @@
-package org.uiowa.cs2820.engine;
+package org.uiowa.cs2820.engineTest;
 
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 
 import org.junit.Test;
+import org.uiowa.cs2820.engine.DiskSpace;
+import org.uiowa.cs2820.engine.Field;
 
 public class DiskSpaceTest {
 

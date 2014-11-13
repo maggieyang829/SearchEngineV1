@@ -1,10 +1,11 @@
-package org.uiowa.cs2820.engine;
+package org.uiowa.cs2820.engineTest;
 
 import java.io.File;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.uiowa.cs2820.engine.CheckPoint;
 
 import java.util.BitSet;
 
