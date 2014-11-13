@@ -2,6 +2,31 @@ package org.uiowa.cs2820.engine;
 
 import java.io.IOException;
 
+/*KeyStorage is one of the essential part of the database. It is composed of a singly linked list of
+ *Node objects in the database file. In this class, head and tail keep track of the start and the end
+ *of the list, and size indicates how many node objects are there in the linked list. Whenever user 
+ *do indexing on a file, the indexer class will put a new Field into the KeyStorage in the form of a 
+ *node. When the user wants to delete a Field, the node associated with the Field will be deleted from
+ *the keyStorage.
+ *
+ *Constructor:
+ *This class only has one unique instance and has only static methods, so it's not necessary to build 
+ *a constructor.
+ *
+ *Methods:
+ *1> init(): this method initiates the head, tail and the size of the key storage. Because there is no data
+ *   in the key storage yet, the head and tail point to null area and the size is zero.
+ *2> Node get(long areaNum): it uses DiskSpace.read() to read from a specific chunk in the database (file)
+ *   and uses Field.revert to return a Node object.
+ *3> put(long areaNum, Node n): this method also uses DiskSpace to write a node in a specific area in the
+ *   database file.
+ *4> add(Node n): it adds a node into the current linked list in the key storage. Head and tail pointers are
+ *   adjusted accordingly. If succeed, it returns true, false otherwise.
+ *5> delete(Node): it delete a node from the current linked list in the key storage. Head and tail pointers 
+ *   are adjusted accordingly. If succeed, it returns true, false otherwise.
+ *6> clear(): this method clear all the node objects in the keystorage, so the size will be zero.
+ *7> listAll(): this is only used for debugging convenience.*/
+
 public class KeyStorage {
 	
 	public static long head;
@@ -56,8 +81,7 @@ public class KeyStorage {
 		return true;
 	}
 	
-	/*delete a node from file. Node can be the head, tail or in the middle
-	may need modification, don't know if we need to check n is in file or not*/
+
 	public static boolean delete(Node n) throws Exception{ 
 		Node before = null;
 		try{
