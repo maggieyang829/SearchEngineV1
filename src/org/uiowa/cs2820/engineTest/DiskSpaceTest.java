@@ -1,21 +1,19 @@
-package org.uiowa.cs2820.engine;
+package org.uiowa.cs2820.engineTest;
 
 import static org.junit.Assert.*;
-
-import org.uiowa.cs2820.engine.KeyStorage;
-
+import org.uiowa.cs2820.engine.*;
 import java.io.IOException;
 
 import org.junit.Test;
 
 public class DiskSpaceTest {
-
 	@Test
 	/* Test for write and read method. Checks if pre-written byte array
 	 * is the same as the read byte array by reverting them to objects
 	 * and comparing them.
 	 */
 	public void test1() throws IOException {
+		StartUp.init();
 		byte[] b = new byte[1024];
 		DiskSpace.write(1, b);
 		byte[] b2 = DiskSpace.read(1);
@@ -46,7 +44,7 @@ public class DiskSpaceTest {
 		Node n = new Node(f);
 		KeyStorage.put(3, n);
 		Node n2 = (Node) KeyStorage.get(3);
-		assertEquals(n2.addr, n.addr);
+		assertTrue(n2.getKey().getFieldName().equals(n.getKey().getFieldName()));
 	}
 	@Test
 	/* Tests the reset method by checking size
