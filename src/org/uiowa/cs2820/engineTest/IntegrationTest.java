@@ -14,7 +14,7 @@ public class IntegrationTest {
 	 @Test
 	 public void test() {
 		 
-	     CheckPoint.reset(); // I made these two reset() methods to erase old contents of file
+	     Allocate.clearAll(); // I made these two reset() methods to erase old contents of file
 	     DiskSpace.reset();
 	     
 	     Field f = new Field("citizen",true);
@@ -30,9 +30,7 @@ public class IntegrationTest {
 	     assertEquals(S.length,2);
 	     assertEquals(S[0],"second.db");
 	     assertEquals(S[1],"first.db");
-	     I.remove();  // students do not need to do this part
-	     S = F.findEquals();
-	     assertEquals(S.length,1);
+
 	     }
 
 }

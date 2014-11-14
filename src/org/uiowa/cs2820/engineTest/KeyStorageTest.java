@@ -10,7 +10,8 @@ public class KeyStorageTest {
 
 	@Test
 	public void test() throws Exception {
-		KeyStorage.init();
+		
+		StartUp.init();
 		
 		//test add(Node n)
 		Field f1 = new Field("country1", new String("China"));
@@ -34,6 +35,7 @@ public class KeyStorageTest {
 		//test clear()
 		KeyStorage.clear();
 		assertEquals(KeyStorage.getSize(),0);
+		assertEquals(KeyStorage.head, -1);
 		
 	}
 

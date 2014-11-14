@@ -81,6 +81,7 @@ public class KeyStorage {
 		}
 		catch(Exception e){
 			System.out.println("Add Node Failed!");
+			e.printStackTrace();
 			return false;
 			}
 		return true;

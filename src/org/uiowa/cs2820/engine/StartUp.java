@@ -5,5 +5,6 @@ public class StartUp {
 		CheckPoint.init();
 		KeyStorage.init();
 		ValueStorage.init();
+		LinearMemoryDatabase.init();
 	}
 }
