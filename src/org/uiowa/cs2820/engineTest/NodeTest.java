@@ -10,9 +10,4 @@ public class NodeTest {
  *add(), delete() rely heavily on the ValueStorage.load and store methods. Doing the test for these two
  *methods are like testing on the ValueStorage load and store methods*/
 	
-	@Test
-	public void test() {
-		
-	}
-
 }

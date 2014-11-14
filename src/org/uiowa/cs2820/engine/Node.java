@@ -24,8 +24,7 @@ import java.io.*;
  * 4> add(String id) adds a new identifier to the current set of identifiers associating with the node.
  *    It uses ValueStorage.load() and ValueStorage.store() methods.
  * 5> delete(String id) deletes a specific id from the current set of identifiers.
- *    It uses ValueStorage.load() and ValueStorage.store() methods.
- * 6> toString() is only written for debugging purpose.*/
+ *    It uses ValueStorage.load() and ValueStorage.store() methods.*/
 
 public class Node implements Serializable {
 	  /**
@@ -71,17 +70,13 @@ public class Node implements Serializable {
 		  idLst.add(id);
 		  }
 		  
-		  ValueStorage.store(idLst);
+		  ValueStorage.store(idLst, valueArea);
 	  }
 	  
 	  public void delete(String id) throws IOException {
 		  ArrayList<String> idList = ValueStorage.load(valueArea);
 		  idList.remove(id);
-		  ValueStorage.store(idList);
+		  ValueStorage.store(idList,valueArea);
 	  }
   
-	  public String toString(){
-		  String s = "[" + key.toString() + ": " + ValueStorage.listAll(valueArea) + "]";
-		  return s;
-	  }
   }
