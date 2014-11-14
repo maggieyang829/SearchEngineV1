@@ -46,10 +46,12 @@ public class DiskSpaceTest {
 		Node n2 = (Node) KeyStorage.get(3);
 		assertTrue(n2.getKey().getFieldName().equals(n.getKey().getFieldName()));
 	}
+	
 	@Test
 	/* Tests the reset method by checking size
 	 * and isEmpty method
 	 */
+	
 	public void test4() throws IOException {
 		DiskSpace.reset();
 		assertEquals(DiskSpace.size(), 0);

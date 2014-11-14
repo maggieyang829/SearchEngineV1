@@ -2,6 +2,8 @@ package org.uiowa.cs2820.engineTest;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
 import org.uiowa.cs2820.engine.*;
 import org.junit.Test;
 
@@ -12,10 +14,9 @@ import org.junit.Test;
 public class IntegrationTest {
 
 	 @Test
-	 public void test() {
+	 public void test() throws IOException {
 		 
-	     Allocate.clearAll(); // I made these two reset() methods to erase old contents of file
-	     DiskSpace.reset();
+	     StartUp.init();
 	     
 	     Field f = new Field("citizen",true);
 	     Indexer I = new Indexer("first.db");
@@ -25,8 +26,8 @@ public class IntegrationTest {
 	     I = new Indexer("second.db");
 	     I.addField(f);
 	     I.addField(new Field("three",3));
-	     FieldSearch F = new FieldSearch(f);
-	     String[] S = F.findEquals();
+	     FieldSearch F = new FieldSearch();
+	     String[] S = F.findEquals(f);
 	     assertEquals(S.length,2);
 	     assertEquals(S[0],"second.db");
 	     assertEquals(S[1],"first.db");

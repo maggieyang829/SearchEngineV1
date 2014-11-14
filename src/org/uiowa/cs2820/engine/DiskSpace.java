@@ -56,5 +56,7 @@ public class DiskSpace {
 		@SuppressWarnings("resource")
 		RandomAccessFile raf = new RandomAccessFile(file, "rw");
 		raf.setLength(0);
+		Allocate.clearAll();
+		raf.close();
 	}
 }
