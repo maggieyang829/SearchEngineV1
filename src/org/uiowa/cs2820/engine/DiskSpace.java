@@ -5,8 +5,9 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class DiskSpace {
-	//private static File file = LinearMemoryDatabase.getDataStorage();
-	private static File file = new File("byte.txt");
+	private static File file = LinearMemoryDatabase.getDataStorage();
+	//this is commented out because I have been using this for the unit tests
+	//private static File file = new File("byte.txt"); 
 	public static void write(long area, byte[] b) throws IOException{
 		RandomAccessFile rafw = new RandomAccessFile(file, "rw"); //creates random access file
 		byte[] L = new byte[2];
@@ -26,19 +27,15 @@ public class DiskSpace {
 		byte[] L = new byte[2];
 		rafr.read(L); //reads first two bytes to get length needed
 		int N = (int)L[0];
-		if(N < 0) {
-			N = N + 256;
-		}
+		if(N < 0) N = N + 256;
 		N = N * 256;
 		int M = (int)L[1];
-		if(M < 0) {
-			M = M + 256;
-		}
+		if(M < 0) M = M + 256;
 		N = N + M;
 		byte[] B2 = new byte[N]; //sets length two read to length needed
 		//reads from pointer to end of area and writes to byte array
 		for(int i=0; i < N; i++) {
-			B2[i] = rafr.readByte();
+			B2[i] = (byte) rafr.read();
 		}
 		rafr.close();
 		return B2;
@@ -58,4 +55,9 @@ public class DiskSpace {
 		else return false;
 	}
 	
+	public static void reset() throws IOException{
+		@SuppressWarnings("resource")
+		RandomAccessFile raf = new RandomAccessFile(file, "rw");
+		raf.setLength(0);
+	}
 }
