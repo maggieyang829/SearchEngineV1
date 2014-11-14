@@ -34,19 +34,17 @@ public class ValueStorage {
 			Areas nextArea = (Areas) Field.revert(mybyte);
 			myArea = nextArea;
 		}
+		byte[] byteValue = myArea.myValue;
+		String name2 = (String) Field.revert(byteValue);
+		Identifiers.add(name2);
+		
 		return Identifiers;
 	}
-	//Array list of identifiers
-    public static void store(ArrayList<String> lst) throws IOException{
-    	//Areas current = get(head);
- 		for(int i=0; i<=lst.size(); i++){
- 	    	String fileName = (String) lst.get(i);
- 	    	byte[] myByte = Field.convert(fileName);
- 	    	int mySize = fileName.length();
-
- 		}
-    	
-		
+	//Takes ArrayList of identifiers
+    public static void store(ArrayList<String> lst, long area) throws IOException{
+    	byte[] byteArray = Field.convert(lst);
+    	DiskSpace.write(area, byteArray);
+    		
 	}
     
     public static void clear(long startpoint) throws IOException{
@@ -63,18 +61,18 @@ public class ValueStorage {
 
     }
     
-    public static String listAll(long startpoint) throws IOException{
-		String s = "";
-		if(size == 0) s = "[]";
-		else {
-		    Areas current = get(head);
-			while(current.next != -1){
-				s += current. + '\n';
-				current = get(current.next);
-			}
-			s += current.key.getFieldName();
-		}
-		return s;
-	}
+//    public static String listAll(long startpoint) throws IOException{
+//		String s = "";
+//		if(size == 0) s = "[]";
+//		else {
+//		    Areas current = get(head);
+//			while(current.next != -1){
+//				s += current. + '\n';
+//				current = get(current.next);
+//			}
+//			s += current.key.getFieldName();
+//		}
+//		return s;
+//	}
 
 }

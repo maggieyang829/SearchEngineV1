@@ -6,8 +6,8 @@ public class Areas {
 	long next;
 	long addr;
 	
-	Areas(int s, long next1, byte[] b){
-		this.size = s;
+	Areas(long next1, byte[] b){
+		this.size = b.length;
 		this.next = next1;
 		this.myValue = b;
 		this.addr = Allocate.allocate();
