@@ -6,8 +6,6 @@ import java.io.RandomAccessFile;
 
 public class DiskSpace {
 	private static File file = LinearMemoryDatabase.getDataStorage();
-	//this is commented out because I have been using this for the unit tests
-	//private static File file = new File("byte.txt"); 
 	public static void write(long area, byte[] b) throws IOException{
 		RandomAccessFile rafw = new RandomAccessFile(file, "rw"); //creates random access file
 		byte[] L = new byte[2];
