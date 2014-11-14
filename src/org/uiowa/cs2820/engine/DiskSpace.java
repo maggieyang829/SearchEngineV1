@@ -5,15 +5,14 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class DiskSpace {
-	private static File file = LinearMemoryDatabase.getDataStorage();
+	public static File file = LinearMemoryDatabase.getDataStorage();
 	public static void write(long area, byte[] b) throws IOException{
 		RandomAccessFile rafw = new RandomAccessFile(file, "rw"); //creates random access file
 		byte[] L = new byte[2];
 		// Following two lines save length of byte array to first two bytes of area chunk
-		L[0] = (byte) (b.length/2);
-		L[1] = (byte) b.length;
-		rafw.seek(area); //sets pointer in file to area
-		rafw.setLength(1024);
+		L[0] = (byte) (b.length/256);
+		L[1] = (byte) (b.length % 256);
+		rafw.seek(area*1024); //sets pointer in file to area
 		rafw.write(L); //writes the byte array to the file
 		rafw.write(b);
 		rafw.close();
@@ -21,7 +20,7 @@ public class DiskSpace {
 	
 	public static byte[] read(long area) throws IOException{
 		RandomAccessFile rafr = new RandomAccessFile(file, "r");
-		rafr.seek(area); //sets pointer in file to area needed
+		rafr.seek(area*1024); //sets pointer in file to area needed
 		byte[] L = new byte[2];
 		rafr.read(L); //reads first two bytes to get length needed
 		int N = (int)L[0];
