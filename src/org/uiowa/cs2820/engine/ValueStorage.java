@@ -15,29 +15,66 @@ public class ValueStorage {
 		tail = -1;
 	}
 	
+	public static Areas get(long areaNum) throws IOException{
+		byte[] byteResult = DiskSpace.read(areaNum);
+		Areas a = (Areas) Field.revert(byteResult);
+		return a;
+	}
+	
 	public static ArrayList<String> load(long start) throws IOException{
 		ArrayList<String> Identifiers = new ArrayList<String>();
-		byte[] fileName = DiskSpace.read(start);
+		Areas myArea = get(start);
 		
-		Areas myArea = (Areas) Field.revert(fileName);
 		while(myArea.next != -1){
 			byte[] name = myArea.myValue;
 			String name1 = (String) Field.revert(name);
 			Identifiers.add(name1);
-			myArea = myArea.next;
+			
+			byte[] mybyte = DiskSpace.read(myArea.next);
+			Areas nextArea = (Areas) Field.revert(mybyte);
+			myArea = nextArea;
 		}
 		return Identifiers;
 	}
-	
-    public static void store(ArrayList<String> lst){
+	//Array list of identifiers
+    public static void store(ArrayList<String> lst) throws IOException{
+    	//Areas current = get(head);
+ 		for(int i=0; i<=lst.size(); i++){
+ 	    	String fileName = (String) lst.get(i);
+ 	    	byte[] myByte = Field.convert(fileName);
+ 	    	int mySize = fileName.length();
+
+ 		}
+    	
 		
 	}
     
-    public static void clear(long startpoint){
-    	
+    public static void clear(long startpoint) throws IOException{
+    	if(size == 0) return;
+		Areas current = get(head);
+		while(current.next != -1){
+			Areas temp = get(current.next);
+			Allocate.free(current.addr);
+			current = temp;
+		}
+		Allocate.free(current.addr);		
+		head = tail = -1;
+		size = 0;
+
     }
     
-    public static String listAll(long startpoint){
-    	return "";
-    }
+    public static String listAll(long startpoint) throws IOException{
+		String s = "";
+		if(size == 0) s = "[]";
+		else {
+		    Areas current = get(head);
+			while(current.next != -1){
+				s += current. + '\n';
+				current = get(current.next);
+			}
+			s += current.key.getFieldName();
+		}
+		return s;
+	}
+
 }
