@@ -16,7 +16,7 @@ public class FieldTest {
 	@Test
 	public void test0() throws IOException {
 	  Database D = new LinearMemoryDatabase();
-	  FieldSearch F = new FieldSearch(D);
+	  FieldSearch F = new FieldSearch();
 	  Field F1 = new Field("1",new Integer(45));
 	  assertEquals(F.findEquals(F1).length,0);
 	  }
@@ -24,7 +24,7 @@ public class FieldTest {
 	@Test
 	public void test1() throws IOException {
 	  Database D = new LinearMemoryDatabase();
-	  FieldSearch F = new FieldSearch(D);
+	  FieldSearch F = new FieldSearch();
 	  Indexer I = new Indexer("abc");
 	  Field F1 = new Field("1",new Integer(45));
 	  Field F2 = new Field("part","bolt");

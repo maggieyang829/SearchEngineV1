@@ -6,6 +6,8 @@ import java.io.IOException;
 public class LinearMemoryDatabase implements Database {
   private static File dataStorage;
   
+  public LinearMemoryDatabase(){}
+  
   public static void init(){
 	  dataStorage = new File("dataspace.txt");                    
 		try {
@@ -36,7 +38,7 @@ public class LinearMemoryDatabase implements Database {
 	try {
 	    Node n = fetch(key);
 		if(n != null){                                      //when the node is in the keystorage
-		n.add(id);
+		   n.add(id);
 	    } else {
 	    	Node newNode = new Node(key);						//when node is not in keystorage, create new one
 	    	newNode.add(id);

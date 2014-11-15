@@ -61,18 +61,5 @@ public class ValueStorage {
 
     }
     
-//    public static String listAll(long startpoint) throws IOException{
-//		String s = "";
-//		if(size == 0) s = "[]";
-//		else {
-//		    Areas current = get(head);
-//			while(current.next != -1){
-//				s += current. + '\n';
-//				current = get(current.next);
-//			}
-//			s += current.key.getFieldName();
-//		}
-//		return s;
-//	}
 
 }

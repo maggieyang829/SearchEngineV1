@@ -24,8 +24,7 @@ import java.io.*;
  * 4> add(String id) adds a new identifier to the current set of identifiers associating with the node.
  *    It uses ValueStorage.load() and ValueStorage.store() methods.
  * 5> delete(String id) deletes a specific id from the current set of identifiers.
- *    It uses ValueStorage.load() and ValueStorage.store() methods.
- * 6> toString() is only written for debugging purpose.*/
+ *    It uses ValueStorage.load() and ValueStorage.store() methods.*/
 
 public class Node implements Serializable {
 	  /**
@@ -40,13 +39,18 @@ public class Node implements Serializable {
 
 	public Node(Field f) {
 		this.key = f;
+<<<<<<< HEAD
 		this.valueArea = -1;  //return the address of free space for the first value
+=======
+		this.valueArea = -1;
+>>>>>>> 08f05e577e21a614386338d897079c7bf6f7f12d
 		this.next = -1;
 		this.addr = -1;
 	}
 
-	public ArrayList<String> getIdentifiers(long start) throws IOException{
-			return ValueStorage.load(start);                
+	public ArrayList<String> getIdentifiers() throws IOException{
+		if (valueArea == -1) {return null;}
+		return ValueStorage.load(valueArea);                
 	  }
 	  
 	  public Field getKey(){
@@ -57,6 +61,7 @@ public class Node implements Serializable {
 		  return addr;
 	  }
 	  
+<<<<<<< HEAD
 	  public void add(String id) throws IOException {	
 		  ArrayList<String> idList;
 		  if(valueArea == -1){
@@ -70,13 +75,32 @@ public class Node implements Serializable {
 		  		 
 		  ValueStorage.store(idList, valueArea);
 		  
+=======
+	  public void add(String id) throws IOException {
+		  ArrayList<String> idLst;
+		  
+		  if(valueArea == -1){
+			  idLst = new ArrayList<String>();
+			  idLst.add(id);
+			  valueArea = Allocate.allocate();
+		  } else {
+		  
+		  idLst = ValueStorage.load(valueArea);
+		  idLst.add(id);
+		  }
+		  
+		  ValueStorage.store(idLst, valueArea);
+>>>>>>> 08f05e577e21a614386338d897079c7bf6f7f12d
 	  }
 	  
 	  public void delete(String id) throws IOException {
 		  ArrayList<String> idList = ValueStorage.load(valueArea);
 		  idList.remove(id);
-		  ValueStorage.store(idList);
+		  ValueStorage.store(idList,valueArea);
 	  }
   
+<<<<<<< HEAD
 
+=======
+>>>>>>> 08f05e577e21a614386338d897079c7bf6f7f12d
   }

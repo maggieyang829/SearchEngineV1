@@ -13,7 +13,6 @@ public class KeyStorageTest {
 		
 		StartUp.init();
 		
-		//test add(Node n)
 		Field f1 = new Field("country1", new String("China"));
 		Node a = new Node(f1);
 		KeyStorage.add(a);
@@ -25,12 +24,17 @@ public class KeyStorageTest {
 		//test getSize()
 		assertEquals(KeyStorage.getSize(),2);
 		
+		//test add(Node n)
+		assertTrue(KeyStorage.get(KeyStorage.head).getKey().getFieldName().equals("country1") );
+		
 		//test get() and put(), which are also part of add(Node n)
 		assertTrue(KeyStorage.get(a.getAddr()).getKey().getFieldName().equals("country1"));
 		
 		//test delete(Node n)
 		KeyStorage.delete(a);
 		assertEquals(KeyStorage.getSize(),1);
+		
+		assertTrue(KeyStorage.get(KeyStorage.head).getKey().getFieldName().equals("country2"));
 		
 		//test clear()
 		KeyStorage.clear();
