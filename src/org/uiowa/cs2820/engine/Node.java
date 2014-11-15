@@ -40,7 +40,7 @@ public class Node implements Serializable {
 
 	public Node(Field f) {
 		this.key = f;
-		this.valueArea = Allocate.allocate();  //return the address of free space for the first value
+		this.valueArea = -1;  //return the address of free space for the first value
 		this.next = -1;
 		this.addr = -1;
 	}
@@ -57,10 +57,19 @@ public class Node implements Serializable {
 		  return addr;
 	  }
 	  
-	  public void add(String id) throws IOException {		  
-		  ArrayList<String> idList = ValueStorage.load(valueArea);
+	  public void add(String id) throws IOException {	
+		  ArrayList<String> idList;
+		  if(valueArea == -1){
+			  idList = new ArrayList<String>();
+			  idList.add(id);
+			  valueArea = Allocate.allocate();
+		  }else{
+		  idList = ValueStorage.load(valueArea);
 		  idList.add(id);
-		  ValueStorage.store(idList);
+		  }
+		  		 
+		  ValueStorage.store(idList, valueArea);
+		  
 	  }
 	  
 	  public void delete(String id) throws IOException {
@@ -69,8 +78,5 @@ public class Node implements Serializable {
 		  ValueStorage.store(idList);
 	  }
   
-	  public String toString(){
-		  String s = "[" + key.toString() + ": " + ValueStorage.listAll(valueArea) + "]";
-		  return s;
-	  }
+
   }
