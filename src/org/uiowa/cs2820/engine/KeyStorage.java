@@ -55,6 +55,7 @@ public class KeyStorage {
 			DiskSpace.write(areaNum, b);
 		}catch (Exception e) {
 			System.out.println("Put Node Failed!");
+			e.printStackTrace();
 			return false;
 		}
 		
@@ -62,12 +63,11 @@ public class KeyStorage {
 	}
 	
 	//add Node n to the end of the linked list and write into file
-	public static boolean add(Node n) throws Exception { 
+	public static boolean add(Node n) throws Exception {
 		n.next = -1;
 		try{
 			if(size == 0) {
-				head = tail = Allocate.allocate();      //init a chunk number to store the first node
-				n.addr = head;
+				head = tail = n.addr;      //init a chunk number to store the first node
 				put(head, n);	
 			} else {
 				n.addr = Allocate.allocate();
@@ -119,7 +119,7 @@ public class KeyStorage {
 				put(before.addr, before);
 			}
 			
-			ValueStorage.clear(current.valueArea);           //clear all the ids associated with this key
+//			current.vs.clear(current.valueArea);           //clear all the ids associated with this key
 			Allocate.free(current.addr);
 			size--;
 			
@@ -140,12 +140,12 @@ public class KeyStorage {
 		Node current = get(head);
 		while(current.next != -1){
 			Node temp = get(current.next);
-			ValueStorage.clear(current.valueArea);
+		//	temp.vs.clear(current.valueArea);
 			Allocate.free(current.addr);
 			current = temp;
 		}
 		
-		ValueStorage.clear(current.valueArea);
+	//	current.vs.clear(current.valueArea);
 		Allocate.free(current.addr);
 		
 		head = tail = -1;

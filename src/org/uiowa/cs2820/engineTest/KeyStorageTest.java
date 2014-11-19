@@ -7,17 +7,16 @@ import org.uiowa.cs2820.engine.*;
 
 public class KeyStorageTest {
 
-
 	@Test
 	public void test() throws Exception {
 		
 		StartUp.init();
 		
-		Field f1 = new Field("country1", new String("China"));
+		Field f1 = new Field("country1", "China");
 		Node a = new Node(f1);
 		KeyStorage.add(a);
 		
-		Field f2 = new Field("country2", new String("US"));
+		Field f2 = new Field("country2", "US");
 		Node b = new Node(f2);
 		KeyStorage.add(b);
 		
@@ -33,7 +32,6 @@ public class KeyStorageTest {
 		//test delete(Node n)
 		KeyStorage.delete(a);
 		assertEquals(KeyStorage.getSize(),1);
-		
 		assertTrue(KeyStorage.get(KeyStorage.head).getKey().getFieldName().equals("country2"));
 		
 		//test clear()

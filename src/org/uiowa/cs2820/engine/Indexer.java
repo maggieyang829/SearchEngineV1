@@ -13,8 +13,8 @@ public class Indexer {
 	}
 	  
 	public void addField(Field f) throws IOException {
-	// Field has (name,value) which is used as key for
-	// the database operations
+		// Field has (name,value) which is used as key for
+		// the database operations
 		LinearMemoryDatabase D = new LinearMemoryDatabase();
 	    D.store(f, id);
 	}

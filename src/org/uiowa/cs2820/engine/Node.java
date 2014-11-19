@@ -27,26 +27,29 @@ import java.io.*;
  *    It uses ValueStorage.load() and ValueStorage.store() methods.*/
 
 public class Node implements Serializable {
-	  /**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	// Node is a basic unit in the database
 	  Field key;       // Key of this node for lookup
 	  long valueArea;  //starting point of the first identifier
 	  long next;      //next Node address
 	  long addr;      //address of the node in the disk space (file)
+	  ValueStorage vs;
 
 	public Node(Field f) {
 		this.key = f;
 		this.valueArea = -1;
 		this.next = -1;
-		this.addr = -1;
+		this.addr = Allocate.allocate();
 	}
-
+	
+	public void setValueArea(long addr){
+		this.valueArea = addr;
+	}
+	
 	public ArrayList<String> getIdentifiers() throws IOException{
-		if (valueArea == -1) {return null;}
-		return ValueStorage.load(valueArea);                
+		if (valueArea == -1) return null;
+		return vs.load(valueArea);                
 	  }
 	  
 	  public Field getKey(){
@@ -57,27 +60,15 @@ public class Node implements Serializable {
 		  return addr;
 	  }
 
-
-	  public void add(String id) throws IOException {
-		  ArrayList<String> idLst;
-		  
-		  if(valueArea == -1){
-			  idLst = new ArrayList<String>();
-			  idLst.add(id);
-			  valueArea = Allocate.allocate();
-		  } else {
-		  
-		  idLst = ValueStorage.load(valueArea);
-		  idLst.add(id);
+	  public boolean add(String id) throws Exception {
+		  if(vs == null){
+			  vs = new ValueStorage(this);		  
 		  }
-		  
-		  ValueStorage.store(idLst, valueArea);
+		  return vs.add(this,id); 
 	  }
-	  
+	   
 	  public void delete(String id) throws IOException {
-		  ArrayList<String> idList = ValueStorage.load(valueArea);
-		  idList.remove(id);
-		  ValueStorage.store(idList,valueArea);
+		  
 	  }
 
   }

@@ -1,15 +1,19 @@
 package org.uiowa.cs2820.engine;
 
-public class Areas {
+import java.io.Serializable;
+
+public class Areas implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	int size;
 	byte[] myValue;
 	long next;
 	long addr;
 	
-	Areas(long next1, byte[] b){
+	Areas(byte[] b){
 		this.size = b.length;
-		this.next = next1;
+		this.next = -1;
 		this.myValue = b;
-		this.addr = Allocate.allocate();
+		this.addr = -1;
 	}
 }

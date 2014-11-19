@@ -6,12 +6,19 @@ import java.io.RandomAccessFile;
 
 public class DiskSpace {
 	public static File file = LinearMemoryDatabase.getDataStorage();
+	
 	public static void write(long area, byte[] b) throws IOException{
+		
+		if(b == null) {
+			return;
+		}		
 		RandomAccessFile rafw = new RandomAccessFile(file, "rw"); //creates random access file
+		
 		byte[] L = new byte[2];
 		// Following two lines save length of byte array to first two bytes of area chunk
 		L[0] = (byte) (b.length/256);
 		L[1] = (byte) (b.length % 256);
+
 		rafw.seek(area*1024); //sets pointer in file to area
 		rafw.write(L); //writes the byte array to the file
 		rafw.write(b);

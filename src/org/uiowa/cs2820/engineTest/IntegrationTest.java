@@ -3,6 +3,7 @@ package org.uiowa.cs2820.engineTest;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.uiowa.cs2820.engine.*;
 import org.junit.Test;
@@ -21,17 +22,21 @@ public class IntegrationTest {
 	     Field f = new Field("citizen",true);
 	     Indexer I = new Indexer("first.db");
 	     I.addField(f);
+	     
 	     Field g = new Field("two",2);
 	     I.addField(g);
+	     
 	     I = new Indexer("second.db");
 	     I.addField(f);
+	     
 	     I.addField(new Field("three",3));
+	     
 	     FieldSearch F = new FieldSearch();
 	     String[] S = F.findEquals(f);
+	     
 	     assertEquals(S.length,2);
-	     assertEquals(S[0],"second.db");
-	     assertEquals(S[1],"first.db");
-
+	     assertEquals(S[0],"first.db");
+	     assertEquals(S[1],"second.db");
 	     }
 
 }
